@@ -11,3 +11,7 @@ venv/
 
 # Supabase / secrets
 serviceAccountKey.json
+
+frontend/
+
+static/

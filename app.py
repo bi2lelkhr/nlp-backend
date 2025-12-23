@@ -9,8 +9,6 @@
 # from routes.field import field_bp
 
 
-
-
 # app = Flask(__name__)
 # CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -45,4 +43,6 @@ app.register_blueprint(overview_bp)
 app.register_blueprint(country_bp)
 app.register_blueprint(field_bp)
 
-
+# ⚠️ KEEP THIS, but Render will ignore it
+if __name__ == "__main__":
+    app.run()
