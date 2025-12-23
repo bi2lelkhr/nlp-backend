@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Research Analytics</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>Research Analytics</h1>
+
+  <!-- ================= FILTERS ================= -->
+  <div class="filters">
+    <input
+      type="text"
+      id="countryInput"
+      placeholder="Country ID (UUID)"
+    />
+
+    <input
+      type="text"
+      id="institutionInput"
+      placeholder="Institution ID (UUID)"
+    />
+
+    <input
+      type="text"
+      id="fieldInput"
+      placeholder="Field (e.g. Artificial Intelligence)"
+    />
+
+    <button id="applyBtn">Apply</button>
+  </div>
+
+  <!-- ================= METRICS ================= -->
+  <div class="metrics">
+    <div class="card">
+      <h3>Average H-index</h3>
+      <p id="avgH">-</p>
+    </div>
+    <div class="card">
+      <h3>Average RII</h3>
+      <p id="avgRii">-</p>
+    </div>
+  </div>
+
+  <!-- ================= RESULTS ================= -->
+  <div class="results">
+    <div>
+      <h2>Top Researchers (H-index)</h2>
+      <ul id="topH"></ul>
+    </div>
+
+    <div>
+      <h2>Top Researchers (RII)</h2>
+      <ul id="topRii"></ul>
+    </div>
+
+    <div id="institutionsBlock" style="display:none;">
+      <h2>Top Institutions</h2>
+
+      <h4>By H-index</h4>
+      <ul id="instH"></ul>
+
+      <h4>By RII</h4>
+      <ul id="instRii"></ul>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

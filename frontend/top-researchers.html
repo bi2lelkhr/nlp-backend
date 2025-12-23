@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Top 5 Researchers – h-index vs RII</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e8f5f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 30px;
+      opacity: 0.85;
+    }
+
+    .card {
+      background: rgba(15, 40, 40, 0.9);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Top 5 Researchers</h1>
+    <div class="subtitle">h-index vs RII comparison</div>
+
+    <div class="card">
+      <canvas id="researcherChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    async function loadChart() {
+    const res = await fetch("http://127.0.0.1:5000/api/researchers/top5/hindex-rii");
+;
+      const data = await res.json();
+
+      const labels = data.map(r => r.name);
+      const hIndex = data.map(r => r.h_index);
+      const rii = data.map(r => r.rii);
+
+      const ctx = document.getElementById("researcherChart").getContext("2d");
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "h-index",
+              data: hIndex,
+              backgroundColor: "#1abc9c",
+              borderRadius: 8
+            },
+            {
+              label: "RII",
+              data: rii,
+              backgroundColor: "#2ecc71",
+              borderRadius: 8
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: "#e8f5f2"
+              }
+            },
+            title: {
+              display: true,
+              text: "h-index vs RII (Top 5 Researchers)",
+              color: "#e8f5f2",
+              font: {
+                size: 16
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: "#e8f5f2"
+              },
+              grid: {
+                color: "rgba(255,255,255,0.1)"
+              }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: "#e8f5f2"
+              },
+              grid: {
+                color: "rgba(255,255,255,0.1)"
+              }
+            }
+          }
+        }
+      });
+    }
+
+    loadChart();
+  </script>
+
+</body>
+</html>

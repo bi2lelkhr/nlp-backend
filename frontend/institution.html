@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Institution Analytics</title>
+  <link rel="stylesheet" href="institution.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>🏛 Institution Analytics</h1>
+
+<div class="filters">
+  <div class="filter">
+    <label>Country</label>
+    <input id="countryInput" placeholder="Type a country..." />
+    <div id="countrySuggestions" class="suggestions"></div>
+  </div>
+
+  <div class="filter">
+    <label>Institution</label>
+    <input id="institutionInput" placeholder="Select institution..." disabled />
+    <div id="institutionSuggestions" class="suggestions"></div>
+  </div>
+</div>
+
+<section id="stats" class="stats"></section>
+
+<div class="card">
+  <h2>📊 Research Fields</h2>
+  <canvas id="fieldsChart"></canvas>
+</div>
+
+<script src="institution.js"></script>
+</body>
+</html>

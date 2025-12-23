@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Field Analytics</title>
+    <link rel="stylesheet" href="field.css" />
+  </head>
+  <body>
+    <h1>📚 Research Field Analytics</h1>
+
+    <div class="search">
+      <input id="fieldInput" placeholder="Type a research field..." />
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+
+    <div id="results" class="grid">
+      <div class="card">
+        <h2>🏆 Top Researchers by H-index</h2>
+        <div id="byH"></div>
+      </div>
+
+      <div class="card">
+        <h2>🔥 Top Researchers by RII</h2>
+        <div id="byRii"></div>
+      </div>
+
+      <!-- 🆕 Country contribution -->
+      <div class="card full">
+        <h2>🌍 Country Contribution</h2>
+        <div id="countries"></div>
+      </div>
+
+      <!-- Modal -->
+      <div id="modal" class="modal hidden">
+        <div class="modal-content">
+          <h2 id="modalTitle"></h2>
+
+          <h3>🏆 Top Researchers by H-index</h3>
+          <div id="modalByH"></div>
+
+          <h3>🔥 Top Researchers by RII</h3>
+          <div id="modalByRii"></div>
+
+          <button onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="field.js"></script>
+  </body>
+</html>
