@@ -58,5 +58,7 @@ Werkzeug==3.1.4
 yarl==1.22.0
 serverless-wsgi
 gunicorn
+flask-cors
 
 requests
+
