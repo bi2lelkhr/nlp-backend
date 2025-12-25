@@ -43,6 +43,6 @@ app.register_blueprint(overview_bp)
 app.register_blueprint(country_bp)
 app.register_blueprint(field_bp)
 
-# ⚠️ KEEP THIS, but Render will ignore it
+
 if __name__ == "__main__":
     app.run()
