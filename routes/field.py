@@ -40,7 +40,7 @@ def search_fields():
                 field_set.add(f)
 
     results = sorted(field_set)
-    return jsonify(results[:15])
+    return jsonify(results)
 
 
 # --------------------------------------------------
@@ -105,12 +105,12 @@ def field_overview():
             researchers,
             key=lambda x: x["h_index"],
             reverse=True
-        )[:3],
+        )[:6],
         "by_rii": sorted(
             researchers,
             key=lambda x: x["rii"],
             reverse=True
-        )[:3]
+        )[:6]
     })
 
 # --------------------------------------------------
@@ -251,6 +251,6 @@ def field_country_researchers():
     researchers = list(researcher_map.values())
 
     return jsonify({
-        "by_h_index": sorted(researchers, key=lambda x: x["h_index"], reverse=True)[:5],
-        "by_rii": sorted(researchers, key=lambda x: x["rii"], reverse=True)[:5]
+        "by_h_index": sorted(researchers, key=lambda x: x["h_index"], reverse=True)[:8],
+        "by_rii": sorted(researchers, key=lambda x: x["rii"], reverse=True)[:8]
     })
