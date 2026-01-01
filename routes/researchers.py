@@ -95,64 +95,100 @@ def researcher_articles(researcher_id):
 # --------------------------------------------------
 # 4️⃣ Co-author network
 # --------------------------------------------------
+# @researcher_bp.route("/api/researcher/<researcher_id>/coauthors", methods=["GET"])
+# def researcher_coauthors(researcher_id):
+
+#     # articles written by researcher
+#     article_rows = (
+#         supabase
+#         .table("authorships")
+#         .select("article_id")
+#         .eq("researcher_id", researcher_id)
+#         .execute()
+#         .data or []
+#     )
+
+#     article_ids = [r["article_id"] for r in article_rows]
+#     if not article_ids:
+#         return jsonify([])
+
+#     rows = (
+#         supabase
+#         .table("authorships")
+#         .select("""
+#             researcher_id,
+#             researchers(
+#                 id,
+#                 full_name,
+#                 h_index,
+#                 rii
+#             )
+#         """)
+#         .in_("article_id", article_ids)
+#         .neq("researcher_id", researcher_id)
+#         .execute()
+#         .data or []
+#     )
+
+#     coauthor_counter = defaultdict(int)
+#     coauthors = {}
+
+#     for r in rows:
+#         res = r.get("researchers")
+#         if res:
+#             coauthor_counter[res["id"]] += 1
+#             coauthors[res["id"]] = res
+
+#     result = [
+#         {
+#             "id": rid,
+#             "name": coauthors[rid]["full_name"],
+#             "h_index": coauthors[rid]["h_index"],
+#             "rii": coauthors[rid]["rii"],
+#             "shared_articles": coauthor_counter[rid]
+#         }
+#         for rid in coauthors
+#     ]
+
+#     result.sort(key=lambda x: x["shared_articles"], reverse=True)
+
+#     return jsonify(result)
+
+
+
 @researcher_bp.route("/api/researcher/<researcher_id>/coauthors", methods=["GET"])
 def researcher_coauthors(researcher_id):
 
-    # articles written by researcher
-    article_rows = (
+    row = (
         supabase
-        .table("authorships")
-        .select("article_id")
-        .eq("researcher_id", researcher_id)
+        .table("researchers")
+        .select("full_name, co_authorship")
+        .eq("id", researcher_id)
+        .single()
         .execute()
-        .data or []
     )
 
-    article_ids = [r["article_id"] for r in article_rows]
-    if not article_ids:
+    data = row.data
+    if not data or not data.get("co_authorship"):
         return jsonify([])
 
-    rows = (
-        supabase
-        .table("authorships")
-        .select("""
-            researcher_id,
-            researchers(
-                id,
-                full_name,
-                h_index,
-                rii
-            )
-        """)
-        .in_("article_id", article_ids)
-        .neq("researcher_id", researcher_id)
-        .execute()
-        .data or []
-    )
+    researcher_name = data["full_name"].strip()
 
-    coauthor_counter = defaultdict(int)
-    coauthors = {}
-
-    for r in rows:
-        res = r.get("researchers")
-        if res:
-            coauthor_counter[res["id"]] += 1
-            coauthors[res["id"]] = res
+    coauthors = [
+        name.strip()
+        for name in data["co_authorship"].split("/")
+        if name.strip() and name.strip() != researcher_name
+    ]
 
     result = [
         {
-            "id": rid,
-            "name": coauthors[rid]["full_name"],
-            "h_index": coauthors[rid]["h_index"],
-            "rii": coauthors[rid]["rii"],
-            "shared_articles": coauthor_counter[rid]
+            "name": name
         }
-        for rid in coauthors
+        for name in sorted(set(coauthors))
     ]
 
-    result.sort(key=lambda x: x["shared_articles"], reverse=True)
-
     return jsonify(result)
+
 
 
 # --------------------------------------------------
