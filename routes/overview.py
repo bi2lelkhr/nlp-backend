@@ -13,7 +13,7 @@ def overview_countries():
         .table("country_info")
         .select("id,name,average_h_index")
         .order("average_h_index", desc=True)
-        .limit(2)
+        .limit(10)
         .execute()
         .data or []
     )
@@ -23,7 +23,7 @@ def overview_countries():
         .table("country_info")
         .select("id,name,average_rii")
         .order("average_rii", desc=True)
-        .limit(2)
+        .limit(10)
         .execute()
         .data or []
     )
@@ -53,7 +53,7 @@ def overview_institutions():
         .table("institution_info")
         .select("id,name,average_h_index")
         .order("average_h_index", desc=True)
-        .limit(2)
+        .limit(10)
         .execute()
         .data or []
     )
@@ -63,7 +63,7 @@ def overview_institutions():
         .table("institution_info")
         .select("id,name,average_rii")
         .order("average_rii", desc=True)
-        .limit(2)
+        .limit(10)
         .execute()
         .data or []
     )
@@ -93,7 +93,7 @@ def overview_researchers():
         .table("researchers")
         .select("id,full_name,h_index")
         .order("h_index", desc=True)
-        .limit(2)
+        .limit(10)
         .execute()
         .data or []
     )
@@ -103,7 +103,7 @@ def overview_researchers():
         .table("researchers")
         .select("id,full_name,rii")
         .order("rii", desc=True)
-        .limit(2)
+        .limit(10)
         .execute()
         .data or []
     )
