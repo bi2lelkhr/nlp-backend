@@ -194,6 +194,45 @@ def researcher_coauthors(researcher_id):
 # --------------------------------------------------
 # 5️⃣ Research fields contribution (percentages)
 # --------------------------------------------------
+# @researcher_bp.route("/api/researcher/<researcher_id>/fields", methods=["GET"])
+# def researcher_field_stats(researcher_id):
+
+#     rows = (
+#         supabase
+#         .table("authorships")
+#         .select("articles(research_area_path)")
+#         .eq("researcher_id", researcher_id)
+#         .execute()
+#         .data or []
+#     )
+
+#     field_counter = Counter()
+#     total = 0
+
+#     for r in rows:
+#         article = r.get("articles")
+#         if not article:
+#             continue
+
+#         fields = normalize_fields(article.get("research_area_path"))
+#         for f in fields:
+#             field_counter[f] += 1
+#             total += 1
+
+#     stats = [
+#         {
+#             "field": k,
+#             "count": v,
+#             "percentage": round((v / total) * 100, 2) if total else 0
+#         }
+#         for k, v in field_counter.items()
+#     ]
+
+#     stats.sort(key=lambda x: x["count"], reverse=True)
+
+#     return jsonify(stats)
+
+
 @researcher_bp.route("/api/researcher/<researcher_id>/fields", methods=["GET"])
 def researcher_field_stats(researcher_id):
 
@@ -214,23 +253,32 @@ def researcher_field_stats(researcher_id):
         if not article:
             continue
 
-        fields = normalize_fields(article.get("research_area_path"))
-        for f in fields:
-            field_counter[f] += 1
-            total += 1
+        path = article.get("research_area_path")
+        if not path:
+            continue
+
+        # ---- LEAF EXTRACTION ----
+        leaf_field = path.split(">")[-1].strip()
+
+        field_counter[leaf_field] += 1
+        total += 1
 
     stats = [
         {
-            "field": k,
-            "count": v,
-            "percentage": round((v / total) * 100, 2) if total else 0
+            "field": field,
+            "count": count,
+            "percentage": round((count / total) * 100, 2) if total else 0
         }
-        for k, v in field_counter.items()
+        for field, count in field_counter.items()
     ]
 
     stats.sort(key=lambda x: x["count"], reverse=True)
 
-    return jsonify(stats[:10])
+    return jsonify(stats[:5])
+
+
+
+
 
 # --------------------------------------------------
 # 6️⃣ Top 5 researchers (h-index vs RII comparison)
