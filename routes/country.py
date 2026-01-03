@@ -5,7 +5,7 @@ from collections import Counter
 country_bp = Blueprint("country", __name__)
 
 # --------------------------------------------------
-# Helper: normalize research fields
+# Helper: normalize research field
 # --------------------------------------------------
 def normalize_fields(path: str):
     """
